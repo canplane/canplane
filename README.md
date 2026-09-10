@@ -15,14 +15,15 @@ I care about systems and how we represent them — the layers, abstractions, and
 
 **[▶ Play](https://plei.me)**
 
-A location-based spatial world built over real-world geodata ([OpenStreetMap](https://www.openstreetmap.org/) + [Copernicus GLO-30](https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM) elevation).
+A geospatial voxel world engine built over real-world data from [Overture Maps](https://overturemaps.org/) and [GEDTM30](https://doi.org/10.5281/zenodo.15689805) elevation.
 
-The work includes custom spatial coordinates and hierarchy, compact typed-array
-transport, terrain representation and streaming, a sparse-octree object layer for
-placed voxels, voxel rendering, and LOD.
+The work includes a custom fixed-point coordinate system and spatial hierarchy,
+streamed terrain, sparse editable voxel objects, and a unified world-layer pipeline
+for composition, meshing, LOD, and raycasting. The runtime also uses explicit frame
+and resource budgets to keep large-world rendering responsive.
 
 This is also where I'm leaning on AI-assisted implementation the most, while
-still designing the core system architecture and representations myself.
+focusing my own design work on the system architecture, representations, and boundaries.
 
 <img alt="Voxel objects built on real-world terrain" src=".github/assets/pixelet.png" height="320">
 
