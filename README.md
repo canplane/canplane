@@ -11,21 +11,44 @@ I care about systems and how we represent them — the layers, abstractions, and
 
 ## Selected projects
 
-### [pixelet](https://github.com/canplane/pixelet) · 2025–2026
+### pixelet (private) · 2025–2026
 
 **[▶ Play](https://plei.me)**
 
 A geospatial voxel world engine built over real-world data from [Overture Maps](https://overturemaps.org/) and [GEDTM30](https://doi.org/10.5281/zenodo.15689805) elevation.
 
-The work includes a custom fixed-point coordinate system and spatial hierarchy,
-streamed terrain, sparse editable voxel objects, and a unified world-layer pipeline
-for composition, meshing, LOD, and raycasting. The runtime also uses explicit frame
-and resource budgets to keep large-world rendering responsive.
+It uses a custom fixed-point coordinate system and spatial hierarchy, with streamed
+terrain and sparse editable voxel objects. In the browser a Rust/WASM kernel holds the
+world and draws it through WebGPU; the React/TypeScript shell decides nothing about it.
+Figma's editor has the same shape, down to the core owning the one memory it was handed.
+It runs on [xpute](https://github.com/canplane/xpute), below.
 
 This is also where I'm leaning on AI-assisted implementation the most, while
 focusing my own design work on the system architecture, representations, and boundaries.
 
 <img alt="Voxel objects built on real-world terrain" src=".github/assets/pixelet.png" height="320">
+
+### [xpute](https://github.com/canplane/xpute) · 2026
+
+A cooperative host/guest runtime originally built for pixelet.
+
+```text
+┌─ host ── TypeScript ───┐                        ┌─ guest ── Rust ──────────┐
+│ owns the clock, the    │                        │ computes, and owns       │
+│ memory, the I/O        │ ═ interrupt(quota) ═▶  │ nothing                  │
+│                        │                        │                          │
+│                        │  ◀═══ wake_ms ═══════  │                          │
+└───────────┬────────────┘                        └────────────┬─────────────┘
+            │                                                  │
+            └──────────────────────────┬───────────────────────┘
+                                       ▼
+           ┌─ one linear memory ─────────────────────────────────┐
+           │ everything else crosses here, and nothing else does │
+           └─────────────────────────────────────────────────────┘
+```
+
+Ring-buffer IPC across that memory, a cooperative scheduler on the quota, and
+credits for the I/O the guest asks the host to do.
 
 ### [SCALE-Sim-PREMA](https://github.com/canplane/SCALE-Sim-PREMA) · 2021
 
