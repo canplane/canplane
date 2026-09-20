@@ -11,20 +11,25 @@ I care about systems and how we represent them — the layers, abstractions, and
 
 ## Selected projects
 
-### [pixelet](https://github.com/canplane/pixelet) · 2025–2026
+### [pixelet](https://github.com/canplane/pixelet) (private) · 2025–2026
 
 **[▶ Play](https://plei.me)**
 
-A location-based spatial world built over real-world geodata ([OpenStreetMap](https://www.openstreetmap.org/) + [Copernicus GLO-30](https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM) elevation).
+A geospatial voxel world engine built over real-world data from [Overture Maps](https://overturemaps.org/) and [GEDTM30](https://doi.org/10.5281/zenodo.15689805) elevation.
 
-The work includes custom spatial coordinates and hierarchy, compact typed-array
-transport, terrain representation and streaming, a sparse-octree object layer for
-placed voxels, voxel rendering, and LOD.
-
-This is also where I'm leaning on AI-assisted implementation the most, while
-still designing the core system architecture and representations myself.
+It uses a custom fixed-point coordinate system and spatial hierarchy, with streamed
+terrain and sparse editable voxel objects. The client follows a Figma-like split: a
+Rust/WASM engine behind a React/TypeScript shell, with WebGPU for rendering. It runs
+on [xpute](https://github.com/canplane/xpute), below.
 
 <img alt="Voxel objects built on real-world terrain" src=".github/assets/pixelet.png" height="320">
+
+### [xpute](https://github.com/canplane/xpute) · 2026
+
+A cooperative host/guest runtime originally built for pixelet.
+
+The host owns memory, time and I/O; a Rust guest runs in turns under quotas and
+talks to its TypeScript host through shared memory and ring-buffer IPC.
 
 ### [SCALE-Sim-PREMA](https://github.com/canplane/SCALE-Sim-PREMA) · 2021
 
@@ -37,7 +42,7 @@ and mid-layer preemption to the simulator.
 
 <img alt="A task preempted mid-run in the console output" src=".github/assets/scale-sim-prema.png" width="480">
 
-### CALAB-loader (private) · 2021
+### [CALAB-loader](https://github.com/canplane/CALAB-loader) (private) · 2021
 
 A from-scratch, user-level ELF64 loader, demand pager, and cooperative thread
 runtime for x86-64 Linux.
