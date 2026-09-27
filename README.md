@@ -18,8 +18,9 @@ I care about systems and how we represent them — the layers, abstractions, and
 A geospatial voxel world engine built over real-world data from [Overture Maps](https://overturemaps.org/) and [GEDTM30](https://doi.org/10.5281/zenodo.15689805) elevation.
 
 It uses a custom fixed-point coordinate system and spatial hierarchy, with streamed
-terrain and sparse editable voxel objects. In the browser a Rust/WASM kernel holds the
-world and draws it through WebGPU; the React/TypeScript shell decides nothing about it.
+terrain and sparse editable voxel objects. A Rust kernel holds the world and draws it,
+as WebAssembly in the browser and natively in an iOS and Android app; the React Native
+shell decides nothing about it.
 Figma's editor has the same shape, down to the core owning the one memory it was handed.
 It runs on [xpute](https://github.com/canplane/xpute), below.
 
