@@ -15,14 +15,17 @@ I care about systems and how we represent them — the layers, abstractions, and
 
 **[▶ Play](https://plei.me)**
 
-A geospatial voxel world engine built over real-world data from [Overture Maps](https://overturemaps.org/) and [GEDTM30](https://doi.org/10.5281/zenodo.15689805) elevation.
+A geospatial voxel engine that turns real-world terrain and places into a world to explore
+and build on, using [Overture Maps](https://overturemaps.org/) and [GEDTM30](https://doi.org/10.5281/zenodo.18887460) elevation.
 
-It uses a custom fixed-point coordinate system and spatial hierarchy, with streamed
-terrain and sparse editable voxel objects. A Rust kernel holds the world and draws it,
-as WebAssembly in the browser and natively in an iOS and Android app; the React Native
-shell decides nothing about it.
-Figma's editor has the same shape, down to the core owning the one memory it was handed.
-It runs on [xpute](https://github.com/canplane/xpute), below.
+Rendering is driven by what the eye can resolve. The view is quantized into cells of
+equal solid angle, and detail is refined only where it would be visible. Terrain, places
+and placed voxel objects are stored differently and read through one query.
+
+A Rust kernel holds the world and draws it, as WebAssembly in the browser and natively
+on iOS and Android; the React Native shell decides nothing about it. Figma's editor uses
+a similar arrangement: C++ compiled to WebAssembly, with its address space in a
+JavaScript array on the page. It runs on [xpute](https://github.com/canplane/xpute), below.
 
 This is also where I'm leaning on AI-assisted implementation the most, while
 focusing my own design work on the system architecture, representations, and boundaries.
@@ -34,7 +37,7 @@ focusing my own design work on the system architecture, representations, and bou
 A cooperative host/guest runtime originally built for pixelet.
 
 ```text
-┌─ host ── TypeScript ───┐                        ┌─ guest ── Rust ──────────┐
+┌─ host ── TypeScript ───┐                        ┌─ guest ──────────────────┐
 │ owns the clock, the    │                        │ computes, and owns       │
 │ memory, the I/O        │ ═ interrupt(quota) ═▶  │ nothing                  │
 │                        │                        │                          │
@@ -43,13 +46,13 @@ A cooperative host/guest runtime originally built for pixelet.
             │                                                  │
             └──────────────────────────┬───────────────────────┘
                                        ▼
-           ┌─ one linear memory ─────────────────────────────────┐
+           ┌─ the core memory ───────────────────────────────────┐
            │ everything else crosses here, and nothing else does │
            └─────────────────────────────────────────────────────┘
 ```
 
-Ring-buffer IPC across that memory, a cooperative scheduler on the quota, and
-credits for the I/O the guest asks the host to do.
+Ring-buffer IPC crosses that memory. The guest schedules its work cooperatively against
+each turn's quota, and the host carries out the guest's I/O requests between turns.
 
 ### [SCALE-Sim-PREMA](https://github.com/canplane/SCALE-Sim-PREMA) · 2021
 
