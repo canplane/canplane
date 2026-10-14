@@ -11,7 +11,7 @@ I care about systems and how we represent them — the layers, abstractions, and
 
 ## Selected projects
 
-### pixelet (private) · 2025–2026
+### [pixelet](https://github.com/canplane/pixelet) · 2025–2026
 
 **[▶ Play](https://plei.me)**
 
@@ -30,7 +30,7 @@ JavaScript array on the page. It runs on [xpute](https://github.com/canplane/xpu
 This is also where I'm leaning on AI-assisted implementation the most, while
 focusing my own design work on the system architecture, representations, and boundaries.
 
-<img alt="Voxel objects built on real-world terrain" src=".github/assets/pixelet.png" height="320">
+<img alt="Voxel objects built on real-world terrain" src=".github/assets/pixelet.webp" width="480">
 
 ### [xpute](https://github.com/canplane/xpute) · 2026
 
